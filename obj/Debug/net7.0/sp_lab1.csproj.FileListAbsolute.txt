@@ -1,0 +1,15 @@
+C:\Code\sp_lab1\bin\Debug\net7.0\sp_lab1.exe
+C:\Code\sp_lab1\bin\Debug\net7.0\sp_lab1.deps.json
+C:\Code\sp_lab1\bin\Debug\net7.0\sp_lab1.runtimeconfig.json
+C:\Code\sp_lab1\bin\Debug\net7.0\sp_lab1.dll
+C:\Code\sp_lab1\bin\Debug\net7.0\sp_lab1.pdb
+C:\Code\sp_lab1\obj\Debug\net7.0\sp_lab1.csproj.AssemblyReference.cache
+C:\Code\sp_lab1\obj\Debug\net7.0\sp_lab1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\sp_lab1\obj\Debug\net7.0\sp_lab1.AssemblyInfoInputs.cache
+C:\Code\sp_lab1\obj\Debug\net7.0\sp_lab1.AssemblyInfo.cs
+C:\Code\sp_lab1\obj\Debug\net7.0\sp_lab1.csproj.CoreCompileInputs.cache
+C:\Code\sp_lab1\obj\Debug\net7.0\sp_lab1.dll
+C:\Code\sp_lab1\obj\Debug\net7.0\refint\sp_lab1.dll
+C:\Code\sp_lab1\obj\Debug\net7.0\sp_lab1.pdb
+C:\Code\sp_lab1\obj\Debug\net7.0\sp_lab1.genruntimeconfig.cache
+C:\Code\sp_lab1\obj\Debug\net7.0\ref\sp_lab1.dll
