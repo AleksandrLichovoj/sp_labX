@@ -22,11 +22,15 @@ internal class Program
 
         var buildingList = new Dictionary<string, Element>();
 
+        var bucketList = new Dictionary<int, Bucket>();
+
         int lowestYear = -1;
 
         int highestYear = 0;
 
         int compareYear = 0;
+
+        int sort_by_year = 5;
 
 
         // Habeeb, "Dubai Media City, Dubai"
@@ -95,19 +99,20 @@ internal class Program
                         }
                     }
                 }
-                Console.WriteLine(buildYear);
+                //Console.WriteLine(buildYear);
                 //Console.WriteLine("LOWEST: " + lowestYear);
                 //Console.WriteLine("HIGHEST: " + highestYear);
             }
             Console.WriteLine("LOWEST: " + lowestYear);
             Console.WriteLine("HIGHEST: " + highestYear);
             //Console.WriteLine(buildingList.Values.SelectMany(Element => Element.BuildYear).ToList());
-            Dictionary<string, Element>.ValueCollection values =buildingList.Values;
-            foreach (Element val in values)
-            {  
-            Console.WriteLine("Id", val.Id);  
+            foreach (KeyValuePair<string, Element> author in buildingList)
+            {
+                //Console.WriteLine("Key: {0}, Value: {1}", author.Key, author.Value.BuildYear);
             }
+            bucketList = ConstructBuckets(lowestYear,highestYear,sort_by_year,buildingList);
            
+            DisplayInConsole(bucketList);
 
         }
 
@@ -160,15 +165,92 @@ internal class Program
 
 
             elements.Add(key: theElement.Id, value: theElement);
+            //Console.WriteLine("ADD ELEMENT " + theElement.BuildYear);
         }
 
-        public void ConstructBuckets(int lowestYear, int highestYear, int period, Dictionary<string, Element> houseList){
-            int duration = highestYear - lowestYear;
-            int bucketNumber = (int)Convert.ToSingle(duration/period); 
+        
 
-            foreach( KeyValuePair<string, Element> element in houseList){
+        public static Dictionary<int,Bucket> ConstructBuckets(int lowestYear, int highestYear, int period, Dictionary<string, Element> list){
+            
+            Console.WriteLine("START CONST BUCKET");
+            
+            var bucketList = new Dictionary<int, Bucket>();
+            
+            
+            int duration = highestYear - lowestYear;
+            
+            int bucketNumber = (int)Convert.ToSingle(duration/period);
+
+            int bucket_startYear = 0;
+            
+            int bucket_endYear = 0;
+
+           
+            int n = 0;
+
+            decimal condition = decimal.Divide(lowestYear-n,period);
+
+            while(!decimal.IsInteger(condition)){
+                n++; // 4
+                condition = decimal.Divide(lowestYear-n,period);
+                //Console.WriteLine(n); 
+            };
+
+            // 1901 - 1 n 1
+            // 1900
+            // 1906 - 1
+            
+            
+
+            bucket_startYear = lowestYear - n;
+
+            //Console.WriteLine(bucketNumber); 
+
+            
+
+            for(int i = 0; i <= bucketNumber; i++){
+                Bucket bucket = new Bucket();
+                bucket.start_range = bucket_startYear;
+                
+                bucket_endYear = bucket_startYear + period;
+                bucket.end_range = bucket_startYear + period;
+                
+               // Console.WriteLine("BUCKETS: " +bucket.end_range + " AND " + i + " AND " + bucket.start_range); 
+                bucket.buidingList_id = new List<string>();
+                bucketList.Add(key:i, value: bucket);
+                bucket_startYear = bucket_endYear;
+
+            }
+
+            int buildYear = 0;
+
+            foreach (KeyValuePair<string, Element> building in list)
+            {
+                 //building.Value.BuildYear;
+                 foreach(KeyValuePair<int, Bucket> buckets in bucketList){
+                    int.TryParse(building.Value.BuildYear, out buildYear);
+                    if(buildYear >= buckets.Value.start_range && buildYear < buckets.Value.end_range){
+                       buckets.Value.buidingList_id?.Add(building.Value.Id); 
+                       //Console.WriteLine(buckets.Value.buidingList_id[0]);
+                    } 
+                 }
+            }
+
+            return bucketList;
+
+        }
+
+
+        public static void DisplayInConsole(Dictionary<int,Bucket> bucketList){
+            int finalSum = 0;
+            foreach(KeyValuePair<int,Bucket> bucket in bucketList){
+                //Console.WriteLine("Building from " + bucket.Value.start_range + " to " + bucket.Value.end_range + " contains : " + bucket.Value.buidingList_id.Count);
+                Console.WriteLine("Building builds from " + bucket.Value.start_range + " to " + bucket.Value.end_range + " are " + bucket.Value.buidingList_id?.Count + " in the list" );
+               
                 
             }
+            
+
 
         }
 
@@ -195,6 +277,15 @@ public class Element
     public string Corpus { get; set; }
     public string AreaSize { get; set; }
    
+}
+
+public class Bucket{
+    
+    public int start_range{ get;set;}
+
+    public int end_range{ get; set;}
+    public List<string>? buidingList_id { get; set;}
+
 }
 
 
