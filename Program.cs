@@ -7,15 +7,22 @@ using System.ComponentModel;
 using Microsoft.VisualBasic.FileIO;
 
 
+// Distribution of building years built by 5 year buckets
+
 internal class Program
 {
+    // Our main function, where all function initialized
     private static void Main(string[] args)
     {
         var path = @"apartment_buildings_2019.csv";
 
+        // We using two dictionary lists, one for 5 years buckets, other for building data.
+
         var buildingList = new Dictionary<string, Element>();
 
         var bucketList = new Dictionary<int, Bucket>();
+
+        // Variables for computations
 
         int lowestYear = -1;
 
@@ -23,10 +30,12 @@ internal class Program
 
         int compareYear = 0;
 
+        // Here we define which duratation should bucket be, by our task it 5.
+
         int sort_by_year = 5;
 
 
-        
+        // Reading from CVS file function
         using (TextFieldParser csvParser = new TextFieldParser(path))
         {
             csvParser.CommentTokens = new string[] { "#" };
@@ -63,20 +72,24 @@ internal class Program
                 string corpus = fields[16];
                 string areaSize = fields[17];
 
+                // Add readed data to dictionary 
+
                 AddToDictionary(buildingList,id,address,owner,ownershipForm,adminstrationEndDate, 
                 appointmentBasis,purpose,uniNumber,generalSize,usedSize,buildYear,renovationYear,
                 renovationStatus,energyClass,houseCount,emtyHouseCount,corpus,areaSize);
                 
                 
-                
+                // We need to check  if build year is given in the file
 
                 bool isParsable = Int32.TryParse(buildYear, out compareYear);
                 if (!isParsable)
                     ignore = true;
                 else
                 {
-                    if(compareYear == 0) ignore = true;
+                    if(compareYear == 0) ignore = true; // if not, we ignore this computation
                 }
+
+                // Here we find out the highest year and lowest year in the list
                 
                 if(!ignore){
 
@@ -95,9 +108,11 @@ internal class Program
                
             }
             
+            // We create our buckets sorted by 5 years
             
             bucketList = ConstructBuckets(lowestYear,highestYear,sort_by_year,buildingList);
            
+            // Function for console writing our results
             DisplayInConsole(bucketList, lowestYear ,highestYear );
 
         }
@@ -162,19 +177,23 @@ internal class Program
             
             var bucketList = new Dictionary<int, Bucket>();
             
+            // Calculations to find out, how many sorted bucket we need
             
             int duration = highestYear - lowestYear;
             
-            int bucketNumber = (int)Convert.ToSingle(duration/period);
+            int bucketNumber = (int)Convert.ToSingle(duration/period);  // We may get fractions, convert to integer
 
             int bucket_startYear = 0;
             
             int bucket_endYear = 0;
 
-           
+            // We need to find starting bucket range, below our calculation of doing that
+            // n is correcting value
             int n = 0;
 
             decimal condition = decimal.Divide(lowestYear-n,period);
+            
+            // here we try to find n, so that by sorting our lowest year, there would be no fractions.
 
             while(!decimal.IsInteger(condition)){
                 n++; // 4
@@ -182,14 +201,14 @@ internal class Program
                 
             };
 
-           
-            
-
+            // so in case we have 1904, it went to first bucket range 1900-1905
+            // Calculateing first bucket range
             bucket_startYear = lowestYear - n;
 
           
 
             
+            // Creating bucket dictionary with sorted ranges
 
             for(int i = 0; i <= bucketNumber; i++){
                 Bucket bucket = new Bucket();
@@ -206,6 +225,8 @@ internal class Program
             }
 
             int buildYear = 0;
+            
+            // Assigning bulding build years into buckets
 
             foreach (KeyValuePair<string, Element> building in list)
             {
