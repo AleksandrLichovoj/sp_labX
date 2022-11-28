@@ -2,17 +2,10 @@
 using System.Linq;
 using System.Globalization;
 using System.ComponentModel;
-// See https://aka.ms/new-console-template for more information
+
 
 using Microsoft.VisualBasic.FileIO;
-// 0 , 1 , 2, 3, 4, 5;
-//id;adresas;namo_valdytojas;valdymo_forma;paskyrimo_pagrindas;administratoriaus_pabaigos_Data;
-//paskirtis;uni_nr;bendr_plotas;naud_plotas;
-//build_year;renov_metai;renovacijos_statusas;energ_naudingumo_klase;butu_skaicius;
-//negyvenamuju_palapu_skaicius;korpusas;sklypo_plotas
 
-//1;A. Goštauto g. 2; 286-oji gyvenamojo namo A.Goštauto g. 2/15 savininkų bendrija;Bendrija;1995.02.02;;Gyvenamoji (trys ir daugiau butų);1096-0010-4010;6607.43;4360.68;1960;;Nerenovuotas;;53;4;1A7p;0.00
-//11;A. Paškevič-Ciotkos g. 15;843-oji daugiabučio namo savininkų bendrija;Bendrija;2002.02.11;;Gyvenamoji (trys ir daugiau butų);1094-0222-5032;1465.63;1176.41;1996;;Nerenovuotas;;19;0;3A5p;0.00
 
 internal class Program
 {
@@ -33,7 +26,7 @@ internal class Program
         int sort_by_year = 5;
 
 
-        // Habeeb, "Dubai Media City, Dubai"
+        
         using (TextFieldParser csvParser = new TextFieldParser(path))
         {
             csvParser.CommentTokens = new string[] { "#" };
@@ -99,20 +92,13 @@ internal class Program
                         }
                     }
                 }
-                //Console.WriteLine(buildYear);
-                //Console.WriteLine("LOWEST: " + lowestYear);
-                //Console.WriteLine("HIGHEST: " + highestYear);
+               
             }
-            Console.WriteLine("LOWEST: " + lowestYear);
-            Console.WriteLine("HIGHEST: " + highestYear);
-            //Console.WriteLine(buildingList.Values.SelectMany(Element => Element.BuildYear).ToList());
-            foreach (KeyValuePair<string, Element> author in buildingList)
-            {
-                //Console.WriteLine("Key: {0}, Value: {1}", author.Key, author.Value.BuildYear);
-            }
+            
+            
             bucketList = ConstructBuckets(lowestYear,highestYear,sort_by_year,buildingList);
            
-            DisplayInConsole(bucketList);
+            DisplayInConsole(bucketList, lowestYear ,highestYear );
 
         }
 
@@ -165,14 +151,14 @@ internal class Program
 
 
             elements.Add(key: theElement.Id, value: theElement);
-            //Console.WriteLine("ADD ELEMENT " + theElement.BuildYear);
+           
         }
 
         
 
         public static Dictionary<int,Bucket> ConstructBuckets(int lowestYear, int highestYear, int period, Dictionary<string, Element> list){
             
-            Console.WriteLine("START CONST BUCKET");
+            
             
             var bucketList = new Dictionary<int, Bucket>();
             
@@ -193,18 +179,15 @@ internal class Program
             while(!decimal.IsInteger(condition)){
                 n++; // 4
                 condition = decimal.Divide(lowestYear-n,period);
-                //Console.WriteLine(n); 
+                
             };
 
-            // 1901 - 1 n 1
-            // 1900
-            // 1906 - 1
-            
+           
             
 
             bucket_startYear = lowestYear - n;
 
-            //Console.WriteLine(bucketNumber); 
+          
 
             
 
@@ -215,7 +198,7 @@ internal class Program
                 bucket_endYear = bucket_startYear + period;
                 bucket.end_range = bucket_startYear + period;
                 
-               // Console.WriteLine("BUCKETS: " +bucket.end_range + " AND " + i + " AND " + bucket.start_range); 
+              
                 bucket.buidingList_id = new List<string>();
                 bucketList.Add(key:i, value: bucket);
                 bucket_startYear = bucket_endYear;
@@ -226,12 +209,12 @@ internal class Program
 
             foreach (KeyValuePair<string, Element> building in list)
             {
-                 //building.Value.BuildYear;
+                
                  foreach(KeyValuePair<int, Bucket> buckets in bucketList){
                     int.TryParse(building.Value.BuildYear, out buildYear);
                     if(buildYear >= buckets.Value.start_range && buildYear < buckets.Value.end_range){
                        buckets.Value.buidingList_id?.Add(building.Value.Id); 
-                       //Console.WriteLine(buckets.Value.buidingList_id[0]);
+                     
                     } 
                  }
             }
@@ -241,15 +224,48 @@ internal class Program
         }
 
 
-        public static void DisplayInConsole(Dictionary<int,Bucket> bucketList){
-            int finalSum = 0;
+        public static void DisplayInConsole(Dictionary<int,Bucket> bucketList, int lowestYear, int highestYear){
+
+            string bucketKey; 
+
+            Console.WriteLine("---START WRITING---");
+            Console.WriteLine(" ");
+            Console.WriteLine("The lowest build year in the bucket : " + lowestYear);
+            Console.WriteLine("The highest build year in the bucket : " + highestYear);
+
             foreach(KeyValuePair<int,Bucket> bucket in bucketList){
-                //Console.WriteLine("Building from " + bucket.Value.start_range + " to " + bucket.Value.end_range + " contains : " + bucket.Value.buidingList_id.Count);
-                Console.WriteLine("Building builds from " + bucket.Value.start_range + " to " + bucket.Value.end_range + " are " + bucket.Value.buidingList_id?.Count + " in the list" );
+                
+                Console.WriteLine("Building builds from " + bucket.Value.start_range + " to " + bucket.Value.end_range + " are " + bucket.Value.buidingList_id?.Count + " in the list , bucket number " + bucket.Key );
                
                 
             }
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Which bucket to display? :");
+            bucketKey = Console.ReadLine();
+
+            if(int.TryParse(bucketKey,out int key)){
+                Console.WriteLine("This bucket building list ids: ");
+                if(bucketList.ContainsKey(key)){
+                    foreach(var i in bucketList[key].buidingList_id)
+                    {
+                        Console.WriteLine(i);
+                    }
+                }else
+                {
+                    Console.WriteLine("! Suck bucket id doesnt exist");
+                }
+                
+            }
+            else{
+                Console.WriteLine("! Wrong input...");
+            }
+
             
+
+            
+            Console.WriteLine("");
+            Console.WriteLine("---END WRITING---");
 
 
         }
