@@ -113,7 +113,7 @@ internal class Program
             bucketList = ConstructBuckets(lowestYear,highestYear,sort_by_year,buildingList);
            
             // Function for console writing our results
-            DisplayInConsole(bucketList, lowestYear ,highestYear );
+            DisplayInConsole(bucketList, lowestYear ,highestYear, buildingList );
 
         }
 
@@ -245,7 +245,7 @@ internal class Program
         }
 
 
-        public static void DisplayInConsole(Dictionary<int,Bucket> bucketList, int lowestYear, int highestYear){
+        public static void DisplayInConsole(Dictionary<int,Bucket> bucketList, int lowestYear, int highestYear , Dictionary<string,Element> buildingList ){
 
             string bucketKey; 
 
@@ -270,7 +270,9 @@ internal class Program
                 if(bucketList.ContainsKey(key)){
                     foreach(var i in bucketList[key].buidingList_id)
                     {
-                        Console.WriteLine(i);
+                         Console.WriteLine(i + " Build year: " + buildingList[i].BuildYear);
+                        
+                        
                     }
                 }else
                 {
