@@ -14,7 +14,7 @@ internal class Program
     // Our main function, where all function initialized
     private static void Main(string[] args)
     {
-        var path = @"apartment_buildings_2019.csv";
+        var path = @"C:\Users\cicui\Documents\\apartment_buildings_2019.csv";
 
         // We using two dictionary lists, one for 5 years buckets, other for building data.
 
@@ -32,7 +32,7 @@ internal class Program
 
         // Here we define which duratation should bucket be, by our task it 5.
 
-        int sort_by_year = 5;
+        int sort_by_year = 2;
 
 
         // Reading from CVS file function

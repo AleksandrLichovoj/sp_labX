@@ -8,25 +8,33 @@
     "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\denie\\.nuget\\packages\\": {}
+    "C:\\Users\\cicui\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Code\\sp_lab1\\sp_lab1.csproj",
+      "projectUniqueName": "C:\\Users\\cicui\\source\\repos\\AleksandrLichovoj\\sp_labX\\sp_lab1.csproj",
       "projectName": "sp_lab1",
-      "projectPath": "C:\\Code\\sp_lab1\\sp_lab1.csproj",
-      "packagesPath": "C:\\Users\\denie\\.nuget\\packages\\",
-      "outputPath": "C:\\Code\\sp_lab1\\obj\\",
+      "projectPath": "C:\\Users\\cicui\\source\\repos\\AleksandrLichovoj\\sp_labX\\sp_lab1.csproj",
+      "packagesPath": "C:\\Users\\cicui\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\cicui\\source\\repos\\AleksandrLichovoj\\sp_labX\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\denie\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\cicui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://www.nuget.org/packages/swashbuckle.aspnetcore.swagger/": {}
       },
       "frameworks": {
         "net7.0": {
